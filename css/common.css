@@ -1,0 +1,171 @@
+/* ===== COMMON.CSS – сброс, шрифты, хедер, футер, базовые компоненты ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
+}
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+h1, h2, h3, h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  color: var(--heading);
+}
+h1 { font-size: clamp(3rem, 8vw, 6rem); }
+h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1.5rem; }
+img { max-width: 100%; height: auto; display: block; }
+a { text-decoration: none; color: inherit; }
+.section { padding: 80px 0; }
+.section-title { text-align: center; margin-bottom: 50px; position: relative; }
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--accent);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 40px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 15px var(--accent-shadow);
+}
+.btn-primary:hover {
+  filter: brightness(0.95);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--accent-shadow);
+}
+.btn-outline {
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+}
+.btn-outline:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Хедер */
+.header {
+  padding: 16px 0;
+  background: var(--bg);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo__img { width: 48px; }
+.logo__text { font-weight: 800; font-size: 1.2rem; color: var(--heading); }
+.nav { display: flex; gap: 24px; align-items: center; }
+.nav a {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  transition: color 0.3s;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+.nav a:hover, .nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--heading);
+}
+
+/* Футер */
+.footer {
+  background: #2B2B28;
+  color: #F0EDE8;
+  padding: 60px 0 20px;
+}
+.footer__inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+.footer a { color: var(--accent); transition: 0.3s; }
+.footer a:hover { color: #fff; }
+.footer__logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 8px; }
+
+/* Плавающая кнопка */
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--accent);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 40px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 25px var(--accent-shadow);
+  z-index: 99;
+  transition: 0.3s;
+}
+.floating-btn:hover { filter: brightness(0.95); transform: translateY(-3px); }
+.floating-form-popup {
+  display: none;
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  width: 340px;
+  z-index: 101;
+  border: 1px solid #F0EDE8;
+}
+.floating-form-popup.show { display: block; }
+.close-form { position: absolute; top: 12px; right: 16px; cursor: pointer; font-size: 1.4rem; }
+.floating-form-popup input, .floating-form-popup select, .floating-form-popup textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #E0DDD5;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+}
+.floating-form-popup button { width: 100%; margin-top: 12px; }
+
+/* Плавающий банан */
+.floating-banana-link { position: fixed; bottom: 20px; left: 20px; z-index: 98; }
+.floating-banana { font-size: 2.5rem; animation: float 3s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+@media (max-width: 768px) {
+  .nav { display: none; }
+  .mobile-menu-btn { display: block; }
+  .floating-form-popup { width: calc(100% - 40px); right: 20px; left: 20px; }
+}
