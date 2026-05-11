@@ -1,0 +1,11 @@
+/* Тема фотостудии – воздух, свет, дерево */
+:root {
+  --bg: #FCFAF7;
+  --bg-secondary: #ffffff;
+  --text: #333333;
+  --text-secondary: #5B5B57;
+  --heading: #2B2B28;
+  --accent: #C7956D;        /* охра/терракот */
+  --accent-light: #D1A685;
+  --accent-shadow: rgba(199,149,109,0.4);
+}
