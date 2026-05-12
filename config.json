@@ -1,0 +1,21 @@
+{
+  "companyName": "Студия 817",
+  "phoneStudio": "+7-911-448-08-30",
+  "phoneIT": "+7-995-788-66-68",
+  "email": "pstudio817@yandex.ru",
+  "address": "г. Вологда, ул. Чернышевского, 120Г",
+  "coordinates": [39.8936, 59.2181],
+  "social": {
+    "vk": "https://vk.com/studio817",
+    "telegram": "",
+    "instagram": ""
+  },
+  "formspree": {
+    "studio": "https://formspree.io/f/xdaydekl",
+    "banan": "https://formspree.io/f/meevzaow"
+  },
+  "metrikaID": "XXXXXX",
+  "topMailruID": "XXXXXX",
+  "promo404": "БАНАН404",
+  "promoThanks": "БАНАНЫ15"
+}
