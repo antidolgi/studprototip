@@ -1,72 +1,90 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Мобильное меню
-  const menuBtn = document.getElementById('mobileMenuBtn');
-  const nav = document.getElementById('mainNav');
-  if (menuBtn && nav) {
-    menuBtn.addEventListener('click', function() {
-      if (nav.style.display === 'flex') {
-        nav.style.display = 'none';
-      } else {
-        nav.style.display = 'flex';
-        nav.style.flexDirection = 'column';
-        nav.style.position = 'absolute';
-        nav.style.top = '70px';
-        nav.style.left = '0';
-        nav.style.background = '#fff';
-        nav.style.width = '100%';
-        nav.style.padding = '20px';
-        nav.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
-      }
-    });
-  }
-
-  // Плавающая форма
-  const floatingBtn = document.getElementById('floatingButton');
-  const floatingForm = document.getElementById('floatingForm');
-  if (floatingBtn && floatingForm) {
-    floatingBtn.addEventListener('click', function() {
-      floatingForm.classList.toggle('show');
-    });
-    document.querySelector('.close-form').addEventListener('click', function() {
-      floatingForm.classList.remove('show');
-    });
-  }
-
-  // Галерея недавних съёмок (только если есть контейнер)
-  const recentGrid = document.getElementById('recentGrid');
-  if (recentGrid) {
-    const recentImages = [
-      { src: 'images/gallery/studio-1.jpg', alt: 'Портрет', category: 'portrait' },
-      { src: 'images/gallery/studio-2.jpg', alt: 'Предметка', category: 'product' },
-      { src: 'images/gallery/studio-3.jpg', alt: 'Семейная', category: 'family' },
-      { src: 'images/gallery/studio-4.jpg', alt: 'Портрет', category: 'portrait' },
-      { src: 'images/gallery/studio-5.jpg', alt: 'Предметка', category: 'product' },
-      { src: 'images/gallery/studio-6.jpg', alt: 'Семья', category: 'family' }
-    ];
-    function renderGallery(filter = 'all') {
-      recentGrid.innerHTML = '';
-      const filtered = filter === 'all' ? recentImages : recentImages.filter(img => img.category === filter);
-      filtered.forEach(img => {
-        const div = document.createElement('div');
-        div.className = 'recent-item';
-        div.innerHTML = `<img src="${img.src}" alt="${img.alt}" loading="lazy">`;
-        div.addEventListener('click', () => {
-          const lb = document.createElement('div');
-          lb.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:2000;';
-          lb.innerHTML = `<img src="${img.src}" style="max-width:90%;max-height:90%;border-radius:12px;">`;
-          lb.addEventListener('click', () => lb.remove());
-          document.body.appendChild(lb);
-        });
-        recentGrid.appendChild(div);
-      });
-    }
-    renderGallery();
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        renderGallery(this.dataset.filter);
-      });
-    });
-  }
+// Бургер-меню
+const burger = document.getElementById('burgerBtn');
+const nav = document.getElementById('mainNav');
+burger?.addEventListener('click', () => {
+    nav.classList.toggle('active');
 });
+
+// Плавный скролл для якорных ссылок
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+});
+
+// Попап
+const requestBtn = document.getElementById('requestBtn');
+const popup = document.getElementById('popupForm');
+const closePopup = document.getElementById('closePopup');
+requestBtn?.addEventListener('click', () => popup.classList.add('active'));
+closePopup?.addEventListener('click', () => popup.classList.remove('active'));
+window.addEventListener('click', (e) => {
+    if (e.target === popup) popup.classList.remove('active');
+});
+
+// Форма: меняем action в зависимости от выбранного направления
+const mainForm = document.getElementById('mainForm');
+if (mainForm) {
+    mainForm.addEventListener('submit', function(e) {
+        const service = this.querySelector('select[name="service"]').value;
+        if (service === 'studio') {
+            this.action = 'https://formspree.io/f/xdaydekl';
+        } else if (service === 'banan') {
+            this.action = 'https://formspree.io/f/meevzaow';
+        }
+    });
+}
+
+// Фильтрация галереи и портфолио (универсальная)
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const filter = this.dataset.filter;
+        const container = this.closest('.gallery__filters, .portfolio__filters').nextElementSibling;
+        const items = container.querySelectorAll('[data-category]');
+        // активная кнопка
+        this.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        items.forEach(item => {
+            if (filter === 'all' || item.dataset.category === filter) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+});
+
+// Простой лайтбокс для галереи (data-lightbox)
+document.addEventListener('click', function(e) {
+    if (e.target.closest('[data-lightbox]')) {
+        e.preventDefault();
+        const imgSrc = e.target.closest('[data-lightbox]').getAttribute('href');
+        const lightbox = document.createElement('div');
+        lightbox.style.position = 'fixed';
+        lightbox.style.inset = '0';
+        lightbox.style.background = 'rgba(0,0,0,0.9)';
+        lightbox.style.display = 'flex';
+        lightbox.style.alignItems = 'center';
+        lightbox.style.justifyContent = 'center';
+        lightbox.style.zIndex = '999';
+        lightbox.innerHTML = `<img src="${imgSrc}" style="max-width:90%; max-height:90%; border-radius:16px;">`;
+        lightbox.addEventListener('click', () => lightbox.remove());
+        document.body.appendChild(lightbox);
+    }
+});
+
+// Swiper для отзывов на главной
+if (typeof Swiper !== 'undefined' && document.querySelector('.reviews__slider')) {
+    new Swiper('.reviews__slider', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        pagination: { el: '.swiper-pagination', clickable: true },
+        breakpoints: {
+            768: { slidesPerView: 2 }
+        }
+    });
+}
